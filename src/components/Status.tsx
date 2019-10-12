@@ -4,16 +4,17 @@ import { GameContext } from '../App';
 import { observer } from 'mobx-react-lite';
 
 const Container = styled.nav`
-  padding: 2rem;
   font-size: 2rem;
+  padding-left: 2rem;
   grid-area: info;
 `;
 
 const GameStatus = () => {
   const game = useContext(GameContext);
 
+
   return (<Container>
-    Current player: <b>{game.currentPlayer}</b>
+    {game.isWon ? <p>Player <b>{game.winningPlayer}</b> has won 🎉🎉🎉</p> : <p>Current player: <b>{game.currentPlayer}</b></p>}
   </Container>);
 }
 
