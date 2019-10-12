@@ -12,7 +12,6 @@ const GridLayout = styled.section`
   grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 0.5rem;
-  // background: #ccc;
 `;
 
 

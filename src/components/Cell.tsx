@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 
 interface TicProps {
   editable: boolean;
+  winningCell: boolean;
 }
 
 const Tic = styled.button<TicProps>`
@@ -22,6 +23,8 @@ const Tic = styled.button<TicProps>`
         opacity: 0.5;
       }
     `}
+
+  ${props => props.winningCell && 'background: #87df87;'}
 `;
 
 interface CellProps {
@@ -34,6 +37,7 @@ const Cell: React.FC<CellProps> = ({ children: value, index }) => {
   const editable = value === null;
 
   const [hovering, setHovering] = useState(false);
+  const winningCell = (game.winningCells && game.winningCells.includes(index)) || false;
 
   const handleClick = useCallback(() => {
     if (editable) {
@@ -47,6 +51,7 @@ const Cell: React.FC<CellProps> = ({ children: value, index }) => {
     <Tic
       onClick={handleClick}
       editable={editable}
+      winningCell={winningCell}
       onMouseOver={() => setHovering(true)}
       onMouseOut={() => setHovering(false)}
     >
