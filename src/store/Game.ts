@@ -1,4 +1,5 @@
 import { observable, computed } from 'mobx';
+import { User } from './User';
 
 export type TicTacValue = 'X' | 'O' | null;
 
@@ -17,11 +18,15 @@ const WINNING_MOVES = [
 ];
 
 class GameStore {
+  @observable started = false;
+  @observable users: User[] = [];
+
   @observable moves : TicTacValue[] = [null, null, null, null, null, null, null, null, null];
+  @observable startingPlayer : TicTacValue = 'X';
 
   @computed get currentPlayer(): TicTacValue{
     const currentMovesDone = this.moves.filter(m => m !== null).length;
-    return currentMovesDone % 2 === 0 ? 'X' : 'O';
+    return currentMovesDone % 2 === 0 ? this.startingPlayer : this.nonStartingPlayer;
   }
 
   @computed get winningCells(): number[] | undefined {
@@ -43,8 +48,22 @@ class GameStore {
     return this.moves[firstWinningCellIndex];
   }
 
+  get nonStartingPlayer() {
+    return this.startingPlayer === 'X' ? 'O' : 'X';
+  }
+
   set(index: number) {
     this.moves[index] = this.currentPlayer;
+  }
+
+  start = (a: User, b: User) => {
+    this.started = true;
+    this.users = [a, b];
+  }
+
+  reset = () => {
+    this.moves = this.moves.map(v => null);
+    this.startingPlayer = this.nonStartingPlayer;
   }
 }
 

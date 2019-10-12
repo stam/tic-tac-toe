@@ -5,7 +5,9 @@ import { observer } from 'mobx-react-lite';
 import Grid from './components/Grid';
 import Ranking from './components/Ranking';
 import GameStore from './store/Game';
+import { UserStore } from './store/User';
 import Status from './components/Status';
+import LobbyScreen from './components/LobbyScreen';
 
 const Layout = styled.main`
   height: 100vh;
@@ -13,28 +15,36 @@ const Layout = styled.main`
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
   grid-template-areas:
-  "info info info info info info info info"
-  "grid grid grid grid grid rank rank rank"
-  "grid grid grid grid grid rank rank rank"
-  "grid grid grid grid grid rank rank rank"
-  "grid grid grid grid grid rank rank rank"
-  "grid grid grid grid grid rank rank rank"
-  "grid grid grid grid grid rank rank rank"
-  "grid grid grid grid grid rank rank rank"
+    'info info info info info info info info'
+    'grid grid grid grid grid rank rank rank'
+    'grid grid grid grid grid rank rank rank'
+    'grid grid grid grid grid rank rank rank'
+    'grid grid grid grid grid rank rank rank'
+    'grid grid grid grid grid rank rank rank'
+    'grid grid grid grid grid rank rank rank'
+    'grid grid grid grid grid rank rank rank';
 `;
 
-const store = new GameStore();
+const gameStore = new GameStore();
+const userStore = new UserStore();
 
-export const GameContext = React.createContext(store);
+export const GameContext = React.createContext(gameStore);
+export const UserContext = React.createContext(userStore);
 
 const App: React.FC = () => {
   return (
-    <GameContext.Provider value={store}>
-      <Layout>
-        <Status />
-        <Grid />
-        <Ranking />
-      </Layout>
+    <GameContext.Provider value={gameStore}>
+      <UserContext.Provider value={userStore}>
+        {gameStore.started ?
+          <Layout>
+            <Status />
+            <Grid />
+            <Ranking />
+          </Layout>
+          :
+          <LobbyScreen />
+        }
+      </UserContext.Provider>
     </GameContext.Provider>
   );
 };
