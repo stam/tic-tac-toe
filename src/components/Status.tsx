@@ -21,16 +21,21 @@ const Container = styled.nav`
 const GameStatus = () => {
   const game = useContext(GameContext);
 
+  const user = {
+    X: `${game.users[0].name} (X)`,
+    O: `${game.users[1].name} (O)`,
+  }
+
   return (
     <Container>
-      {game.isWon ? (
+      {game.winningPlayer ? (
         <div>
-          Player <b>{game.winningPlayer}</b> has won 🎉🎉🎉
+          <b>{user[game.winningPlayer]}</b> has won 🎉🎉🎉
           <Button onClick={game.reset}>Play again</Button>
         </div>
       ) : (
         <p>
-          Current player: <b>{game.currentPlayer}</b>
+          Current player: <b>{user[game.currentPlayer]}</b>
         </p>
       )}
     </Container>

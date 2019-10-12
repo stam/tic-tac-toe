@@ -1,7 +1,8 @@
 import { observable, computed } from 'mobx';
 import { User } from './User';
 
-export type TicTacValue = 'X' | 'O' | null;
+export type TicTac = 'X' | 'O';
+export type NullableTicTac = TicTac | null;
 
 // 0 | 1 | 2
 // 3 | 4 | 5
@@ -21,10 +22,10 @@ class GameStore {
   @observable started = false;
   @observable users: User[] = [];
 
-  @observable moves : TicTacValue[] = [null, null, null, null, null, null, null, null, null];
-  @observable startingPlayer : TicTacValue = 'X';
+  @observable moves : NullableTicTac[] = [null, null, null, null, null, null, null, null, null];
+  @observable startingPlayer : TicTac = 'X';
 
-  @computed get currentPlayer(): TicTacValue{
+  @computed get currentPlayer(): TicTac {
     const currentMovesDone = this.moves.filter(m => m !== null).length;
     return currentMovesDone % 2 === 0 ? this.startingPlayer : this.nonStartingPlayer;
   }
@@ -40,9 +41,9 @@ class GameStore {
     return this.winningCells !== undefined;
   }
 
-  @computed get winningPlayer(): TicTacValue | undefined {
+  @computed get winningPlayer(): NullableTicTac {
     if (!this.winningCells) {
-      return undefined;
+      return null;
     }
     const firstWinningCellIndex = this.winningCells[0];
     return this.moves[firstWinningCellIndex];
@@ -58,11 +59,12 @@ class GameStore {
 
   start = (a: User, b: User) => {
     this.started = true;
+    this.moves = this.moves.map(v => null);
     this.users = [a, b];
   }
 
   reset = () => {
-    this.moves = this.moves.map(v => null);
+    this.started = false;
     this.startingPlayer = this.nonStartingPlayer;
   }
 }

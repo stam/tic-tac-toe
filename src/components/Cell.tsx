@@ -1,7 +1,7 @@
 import React, { useContext, useCallback, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { GameContext } from '../App';
-import { TicTacValue } from '../store/Game';
+import { NullableTicTac } from '../store/Game';
 import { observer } from 'mobx-react-lite';
 
 interface TicProps {
@@ -28,7 +28,7 @@ const Tic = styled.button<TicProps>`
 `;
 
 interface CellProps {
-  children: TicTacValue;
+  children: NullableTicTac;
   index: number;
 }
 

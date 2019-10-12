@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 
 import Grid from './components/Grid';
 import Ranking from './components/Ranking';
 import GameStore from './store/Game';
-import { UserStore } from './store/User';
+import { UserStore, User } from './store/User';
 import Status from './components/Status';
 import LobbyScreen from './components/LobbyScreen';
 
@@ -32,6 +32,9 @@ export const GameContext = React.createContext(gameStore);
 export const UserContext = React.createContext(userStore);
 
 const App: React.FC = () => {
+  const [userA] = useState(new User());
+  const [userB] = useState(new User());
+
   return (
     <GameContext.Provider value={gameStore}>
       <UserContext.Provider value={userStore}>
@@ -42,7 +45,7 @@ const App: React.FC = () => {
             <Ranking />
           </Layout>
           :
-          <LobbyScreen />
+          <LobbyScreen  userA={userA} userB={userB} />
         }
       </UserContext.Provider>
     </GameContext.Provider>

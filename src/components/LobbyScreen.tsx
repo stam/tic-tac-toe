@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useContext, useCallback } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { User } from '../store/User';
@@ -27,10 +27,12 @@ const Input = styled.input`
   padding: 0.25rem 1rem;
 `;
 
-const LobbyScreen = () => {
-  const [userA, setA] = useState(new User());
-  const [userB, setB] = useState(new User());
+interface LobbyScreenProps {
+  userA: User;
+  userB: User;
+}
 
+const LobbyScreen : React.FC<LobbyScreenProps> = ({ userA, userB }) => {
   const game = useContext(GameContext);
   const start = useCallback(() => {
     game.start(userA, userB);
