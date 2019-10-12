@@ -4,7 +4,7 @@ import Button from './Button';
 import { User } from '../store/User';
 import { observer } from 'mobx-react-lite';
 
-const Container = styled.main`
+const Container = styled.form`
   padding-left: 2rem;
   font-size: 2rem;
   max-width: 700px;
@@ -35,7 +35,7 @@ interface LobbyScreenProps {
 
 const LobbyScreen : React.FC<LobbyScreenProps> = ({ userA, userB, start }) => {
   return (
-    <Container>
+    <Container onSubmit={start}>
       <Title>Get ready for a game of tic tac toe!</Title>
       <p>
         <Input

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 
 import Grid from './components/Grid';
-import Ranking, { Container as RankingContainer} from './components/Ranking';
+import Ranking from './components/Ranking';
 import GameStore from './store/Game';
 import { UserStore, User } from './store/User';
 import Status from './components/Status';
@@ -13,24 +13,21 @@ const Layout = styled.main`
   height: 100vh;
   display: grid;
   grid-template-columns: 5fr 3fr;
-  grid-template-rows: 1fr 8fr;
+  grid-template-rows: 100px 8fr;
   grid-template-areas:
     'info info'
     'main rank';
 `;
 
 const SingleRowLayout = styled(Layout)`
-  > ${RankingContainer} {
-    padding-top: 3.3rem;
-  }
-  grid-column-gap: 2rem;
   grid-template-areas:
-    'main rank'
+    'main info'
     'main rank';
 `;
 
 const gameStore = new GameStore();
 const userStore = new UserStore();
+userStore.seed();
 
 export const GameContext = React.createContext(gameStore);
 export const UserContext = React.createContext(userStore);
