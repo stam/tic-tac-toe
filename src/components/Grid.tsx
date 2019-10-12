@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { GameContext } from '../App';
+import Cell from './Cell';
+import { observer } from 'mobx-react-lite';
 
 const GridLayout = styled.section`
   display: grid;
@@ -10,24 +13,16 @@ const GridLayout = styled.section`
   background: #ccc;
 `;
 
-const Cell = styled.button`
-  border: none;
-  outline: none;
-  background: white;
-  height: 200px;
-  width: 200px;
-`;
-
 
 const Grid = () => {
-  const data = ['X', 'O', '', 'X', 'O', 'X', 'X', 'X', 'X'];
-
+  const game = useContext(GameContext);
   return (
     <GridLayout>
-      {data.map(
-      (value, i) => <Cell key={i}>{value}</Cell>)}
+      {game.moves.map((value, i) => (
+        <Cell key={i} index={i}>{value}</Cell>
+      ))}
     </GridLayout>
-  )
-}
+  );
+};
 
-export default Grid;
+export default observer(Grid);
