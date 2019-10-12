@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { UserContext, GameContext } from '../App';
 import { orderBy } from 'lodash';
+import { observer } from 'mobx-react-lite';
 
 const Container = styled.aside`
   padding-left: 2rem;
@@ -30,7 +31,7 @@ const Ranking = () => {
       <h1>Leaderboard</h1>
       <ol>
         {sortedUsers.map(user => (
-          <li><Row playing={game.users.includes(user)}>
+          <li key={user.name}><Row playing={game.users.includes(user)}>
             {user.name} <label>{user.elo}</label>
           </Row></li>
         ))}
@@ -39,4 +40,4 @@ const Ranking = () => {
   );
 };
 
-export default Ranking;
+export default observer(Ranking);

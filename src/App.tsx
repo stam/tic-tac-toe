@@ -33,14 +33,16 @@ export const GameContext = React.createContext(gameStore);
 export const UserContext = React.createContext(userStore);
 
 const App: React.FC = () => {
-  const [userA] = useState(new User());
-  const [userB] = useState(new User());
+  const [usernameA, setUsernameA] = useState(User.generateName());
+  const [usernameB, setUserBName] = useState(User.generateName());
 
-  const start = useCallback(() => {
-    const firstPlayer = userStore.createIfNotExists(userA);
-    const secondPlayer = userStore.createIfNotExists(userB);
+  const start = useCallback((firstName: string, secondName: string) => {
+    setUsernameA(firstName);
+    setUserBName(secondName);
+    const firstPlayer = userStore.createIfNotExists(firstName);
+    const secondPlayer = userStore.createIfNotExists(secondName);
     gameStore.start(firstPlayer, secondPlayer);
-  }, [userA, userB]);
+  }, []);
 
   return (
     <GameContext.Provider value={gameStore}>
@@ -53,7 +55,7 @@ const App: React.FC = () => {
           </Layout>
         ) : (
           <SingleRowLayout>
-            <LobbyScreen userA={userA} userB={userB} start={start}/>
+            <LobbyScreen initialUsernameA={usernameA} initialUsernameB={usernameB} start={start}/>
             <Ranking />
           </SingleRowLayout>
         )}

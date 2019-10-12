@@ -1,5 +1,5 @@
-import { observable, computed } from 'mobx';
-import { User } from './User';
+import { observable, computed, reaction } from 'mobx';
+import { User, UserStore } from './User';
 
 export type TicTac = 'X' | 'O';
 export type NullableTicTac = TicTac | null;
@@ -24,6 +24,20 @@ class GameStore {
 
   @observable moves : NullableTicTac[] = [null, null, null, null, null, null, null, null, null];
   @observable startingPlayer : TicTac = 'X';
+
+  constructor() {
+    reaction(
+      () => this.winningPlayer,
+      (winningPlayer) => {
+        if (winningPlayer === null) {
+          return;
+        }
+        const winningUser = winningPlayer === 'X' ? this.users[0] : this.users[1];
+        const losingUser = winningPlayer === 'X' ? this.users[1] : this.users[0];
+        UserStore.updateElo(winningUser, losingUser);
+      }
+    )
+  }
 
   @computed get currentPlayer(): TicTac {
     const currentMovesDone = this.moves.filter(m => m !== null).length;

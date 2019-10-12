@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
-import { User } from '../store/User';
 import { observer } from 'mobx-react-lite';
 
 const Container = styled.form`
@@ -28,34 +27,37 @@ const Input = styled.input`
 `;
 
 interface LobbyScreenProps {
-  userA: User;
-  userB: User;
-  start: () => void;
+  initialUsernameA: string;
+  initialUsernameB: string;
+  start: (firstName: string, secondName: string) => void;
 }
 
-const LobbyScreen : React.FC<LobbyScreenProps> = ({ userA, userB, start }) => {
+const LobbyScreen : React.FC<LobbyScreenProps> = ({ initialUsernameA, initialUsernameB, start }) => {
+  const [usernameA, setUsernameA] = useState(initialUsernameA);
+  const [usernameB, setUsernameB] = useState(initialUsernameB);
+
   return (
-    <Container onSubmit={start}>
+    <Container onSubmit={() => start(usernameA, usernameB)}>
       <Title>Get ready for a game of tic tac toe!</Title>
       <p>
         <Input
-          value={userA.name}
+          value={usernameA}
           onChange={e => {
-            userA.name = e.target.value;
+            setUsernameA(e.target.value);
           }}
         />{' '}
         will play as X
       </p>
       <p>
         <Input
-          value={userB.name}
+          value={usernameB}
           onChange={e => {
-            userB.name = e.target.value;
+            setUsernameB(e.target.value);
           }}
         />{' '}
         will play as O
       </p>
-      <Button onClick={start}>Start</Button>
+      <Button>Start</Button>
     </Container>
   );
 };
