@@ -5,12 +5,14 @@ import Cell from './Cell';
 import { observer } from 'mobx-react-lite';
 
 const GridLayout = styled.section`
+  grid-area: grid;
+  padding: 2rem;
+
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(3, 1fr);
-  border: 0.5rem solid #ccc;
   grid-gap: 0.5rem;
-  background: #ccc;
+  // background: #ccc;
 `;
 
 

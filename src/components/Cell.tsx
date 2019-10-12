@@ -11,10 +11,9 @@ interface TicProps {
 const Tic = styled.button<TicProps>`
   border: none;
   outline: none;
-  background: white;
+  background: #e5f4ff;
   font-size: 5rem;
-  height: 200px;
-  width: 200px;
+  border-radius: 4px;
 
   ${props =>
     props.editable &&
@@ -37,8 +36,10 @@ const Cell: React.FC<CellProps> = ({ children: value, index }) => {
   const [hovering, setHovering] = useState(false);
 
   const handleClick = useCallback(() => {
-    game.set(index);
-  }, [game, index]);
+    if (editable) {
+      game.set(index);
+    }
+  }, [game, index, editable]);
 
   const hoverValue = hovering ? game.currentPlayer : null;
 
