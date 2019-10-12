@@ -11,5 +11,16 @@ export class User {
 }
 
 export class UserStore {
-  @observable players: User[] = [];
+  @observable users: User[] = [];
+
+  createIfNotExists(targetUser: User) {
+    const existingUser = this.users.find(user => user.name === targetUser.name);
+
+    if (existingUser) {
+      return existingUser;
+    }
+
+    this.users.push(targetUser);
+    return targetUser;
+  }
 }

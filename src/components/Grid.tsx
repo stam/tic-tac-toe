@@ -5,7 +5,7 @@ import Cell from './Cell';
 import { observer } from 'mobx-react-lite';
 
 const GridLayout = styled.section`
-  grid-area: grid;
+  grid-area: main;
   padding: 2rem;
 
   display: grid;

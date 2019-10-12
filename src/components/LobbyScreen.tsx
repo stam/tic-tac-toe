@@ -1,11 +1,11 @@
-import React, { useContext, useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { User } from '../store/User';
 import { observer } from 'mobx-react-lite';
-import { GameContext } from '../App';
 
 const Container = styled.main`
+  padding-left: 2rem;
   font-size: 2rem;
   max-width: 700px;
   margin: auto;
@@ -30,14 +30,10 @@ const Input = styled.input`
 interface LobbyScreenProps {
   userA: User;
   userB: User;
+  start: () => void;
 }
 
-const LobbyScreen : React.FC<LobbyScreenProps> = ({ userA, userB }) => {
-  const game = useContext(GameContext);
-  const start = useCallback(() => {
-    game.start(userA, userB);
-  }, [game, userA, userB]);
-
+const LobbyScreen : React.FC<LobbyScreenProps> = ({ userA, userB, start }) => {
   return (
     <Container>
       <Title>Get ready for a game of tic tac toe!</Title>
